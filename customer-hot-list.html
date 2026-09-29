@@ -346,47 +346,44 @@
   .contact-line .nm{ color:var(--blue-dark); font-weight:600; }
   .contact-line .ph{ color:var(--text-dark); font-weight:600; }
 
-  /* Call modal */
-  .call-from{ text-align:center; font-size:var(--fs-base); line-height:var(--lh-base); font-weight:700; color:var(--text-dark); margin:15px 0; }
-  .call-tabs{ display:flex; gap:22.5px; border-bottom:1.25px solid var(--border); margin-bottom:5px; }
-  .call-tab{ background:none; border:none; border-bottom:2.5px solid transparent; margin-bottom:-1.25px; padding:0 1.25px 11.25px; font-family:inherit; font-size:var(--fs-sm); line-height:var(--lh-sm); font-weight:600; color:var(--muted-fg); cursor:pointer; }
-  .call-tab.active{ color:var(--blue); border-bottom-color:var(--blue); }
-  .call-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px 10px; padding:20px 0 10px; }
-  .call-ctrl{ display:block; text-align:center; background:none; border:none; cursor:pointer; font-family:inherit; font-size:var(--fs-xs); line-height:var(--lh-xs); color:var(--text-body); padding:0; }
-  .call-ctrl .ic{ width:50px; height:50px; margin:0 auto 7.5px; border-radius:50%; border:1.5px solid var(--blue); color:var(--blue); display:flex; align-items:center; justify-content:center; transition:background .13s ease, color .13s ease; }
-  .call-ctrl:hover .ic{ background:var(--blue-bg); }
-  .call-ctrl.on .ic{ background:var(--blue); color:#fff; }
-  .call-ctrl .ic svg{ width:20px; height:20px; }
-  .call-hangup{ display:flex; justify-content:center; margin-top:12.5px; }
-  .call-go{ width:52.5px; height:52.5px; border-radius:50%; background:var(--green); color:#fff; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .13s ease; }
-  .call-go:hover{ filter:brightness(.94); }
-  .call-go svg{ width:22px; height:22px; }
-  [data-theme="dark"] .call-go{ color:#052e22; }
+  /* Call modal — square icon tiles + segmented tabs, matching the rest of the
+     button/segmented catalog instead of a bespoke ringed-circle phone widget. */
+  .call-from{ text-align:center; font-size:var(--fs-sm); line-height:var(--lh-sm); font-weight:500; color:var(--muted-fg); margin:0 0 15px; }
+  .call-tabs{ display:flex; align-items:center; height:var(--h-9); background:var(--segmented-track); border:1.25px solid var(--border); border-radius:var(--r-lg); padding:2.5px; margin-bottom:16.25px; }
+  .call-tab{ flex:1 1 0; display:inline-flex; align-items:center; justify-content:center; height:100%; background:none; border:1.25px solid transparent; padding:0 12.5px; border-radius:var(--r-md); font-family:inherit; font-size:var(--fs-sm); line-height:var(--lh-sm); font-weight:500; color:var(--muted-fg); cursor:pointer; white-space:nowrap; transition:color .15s ease, background .15s ease; }
+  .call-tab:not(.active):hover{ background:var(--blue-bg); color:var(--blue); }
+  .call-tab.active{ background:var(--blue); color:#fff; }
+  .call-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:12.5px 10px; }
+  .call-ctrl{ display:block; text-align:center; background:none; border:none; cursor:pointer; font-family:inherit; font-size:var(--fs-xs); line-height:var(--lh-xs); font-weight:500; color:var(--muted-fg); padding:0; }
+  .call-ctrl .ic{ width:40px; height:40px; margin:0 auto 6.25px; border-radius:var(--r-md); border:1.25px solid var(--input-border); background:var(--surface); color:var(--icon-default); display:flex; align-items:center; justify-content:center; transition:background .13s ease, border-color .13s ease, color .13s ease; }
+  .call-ctrl:hover .ic{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); }
+  .call-ctrl:hover{ color:var(--blue); }
+  .call-ctrl.on .ic{ background:var(--blue); border-color:var(--blue); color:#fff; }
+  .call-ctrl.on{ color:var(--text-heading); }
+  .call-ctrl .ic svg{ width:16.25px; height:16.25px; }
 
   /* SMS + generic checkbox rows */
   .cb-inline{ display:flex; align-items:center; gap:25px; margin-bottom:16.25px; }
   .cb-label{ display:inline-flex; align-items:center; gap:7.5px; font-size:var(--fs-sm); line-height:var(--lh-sm); color:var(--text-body); cursor:pointer; }
   .label-row{ display:flex; align-items:center; justify-content:space-between; }
 
-  /* Email compose */
-  .email-row{ display:flex; align-items:center; gap:12.5px; min-height:37.5px; padding:5px 0; border-bottom:1.25px solid var(--border-soft); }
-  .email-row .lbl{ width:56.25px; flex:0 0 auto; color:var(--muted-fg); font-size:var(--fs-sm); }
-  .email-row .flex1{ flex:1 1 auto; min-width:0; }
-  .email-inline-input{ width:100%; height:20px; border:none; outline:none; background:none; font-family:inherit; font-size:var(--fs-sm); line-height:20px; color:var(--text-body); }
+  /* Email compose — To/Subject are ordinary .field rows; the message area is
+     one bordered .email-compose box (toolbar strip + textarea) instead of a
+     borderless toolbar floating over the page background. */
   .email-chip{ display:inline-flex; align-items:center; gap:6.25px; padding:2.5px 5px 2.5px 8.75px; background:var(--blue-bg); border:1.25px solid var(--blue-border); border-radius:999px; font-size:var(--fs-xs); line-height:15px; color:var(--blue-dark); }
   .email-chip button{ background:none; border:none; padding:0; display:flex; color:var(--blue-dark); cursor:pointer; }
   .email-chip button svg{ width:12.5px; height:12.5px; }
   .email-ccbcc{ display:flex; gap:6.25px; flex:0 0 auto; }
   .email-ccbcc button{ height:25px; padding:0 10px; border:1.25px solid var(--input-border); border-radius:var(--r-sm); background:var(--surface); font-family:inherit; font-size:var(--fs-xs); font-weight:600; color:var(--muted-fg); cursor:pointer; }
   .email-ccbcc button:hover{ border-color:var(--blue); color:var(--blue); }
-  .email-toolbar{ display:flex; flex-wrap:wrap; align-items:center; gap:2.5px; padding:7.5px 0; border-bottom:1.25px solid var(--border-soft); }
-  .email-tb-btn{ width:26.25px; height:26.25px; display:flex; align-items:center; justify-content:center; border:none; background:none; border-radius:var(--r-sm); color:var(--icon-default); cursor:pointer; font-family:inherit; font-size:var(--fs-sm); font-weight:600; }
+  .email-compose{ border:1.25px solid var(--input-border); border-radius:var(--r-md); background:var(--surface); overflow:hidden; }
+  .email-toolbar{ display:flex; flex-wrap:wrap; align-items:center; gap:2.5px; padding:6.25px 8.75px; background:var(--page-bg); border-bottom:1.25px solid var(--border-soft); }
+  .email-tb-btn{ width:27.5px; height:27.5px; display:flex; align-items:center; justify-content:center; border:none; background:none; border-radius:var(--r-sm); color:var(--icon-default); cursor:pointer; font-family:inherit; font-size:var(--fs-sm); font-weight:600; }
   .email-tb-btn:hover{ background:var(--blue-bg); color:var(--blue); }
   .email-tb-btn svg{ width:15px; height:15px; }
   .email-tb-sep{ width:1.25px; height:17.5px; background:var(--border); margin:0 5px; }
-  .email-tb-sel{ height:26.25px; border:1.25px solid var(--input-border); border-radius:var(--r-sm); background:var(--surface); font-family:inherit; font-size:var(--fs-xs); padding:0 6.25px; color:var(--text-body); }
-  .email-tb-tpl{ display:inline-flex; align-items:center; gap:5px; height:26.25px; padding:0 8.75px; border:1.25px solid var(--input-border); border-radius:var(--r-sm); background:var(--surface); font-family:inherit; font-size:var(--fs-xs); font-weight:500; color:var(--blue); cursor:pointer; }
-  .email-body{ min-height:170px; padding:12.5px 0; border:none; outline:none; resize:vertical; width:100%; font-family:inherit; font-size:var(--fs-sm); line-height:var(--lh-base); color:var(--text-body); background:none; }
+  .email-tb-tpl{ display:inline-flex; align-items:center; gap:5px; height:27.5px; padding:0 8.75px; border:1.25px solid var(--input-border); border-radius:var(--r-sm); background:var(--surface); font-family:inherit; font-size:var(--fs-xs); font-weight:500; color:var(--blue); cursor:pointer; }
+  .email-body{ min-height:150px; padding:10px 12.5px; border:none; outline:none; resize:vertical; display:block; width:100%; font-family:inherit; font-size:var(--fs-sm); line-height:var(--lh-base); color:var(--text-body); background:none; }
   .email-attach{ display:inline-flex; align-items:center; gap:7.5px; background:none; border:none; padding:0; font-family:inherit; font-size:var(--fs-sm); line-height:var(--lh-sm); font-weight:500; color:var(--blue); cursor:pointer; }
   .email-attach:hover{ text-decoration:underline; }
   .email-attach .ic{ width:27.5px; height:27.5px; border:1.25px solid var(--blue-border); border-radius:var(--r-md); display:flex; align-items:center; justify-content:center; }
@@ -598,6 +595,10 @@
   .ms-chip button{ background:var(--blue); border:none; padding:0; margin:0; display:flex; align-items:center; justify-content:center; width:15px; height:15px; border-radius:50%; color:#fff; cursor:pointer; flex:0 0 auto; }
   .ms-chip button:hover{ background:var(--blue-dark); }
   .ms-chip button svg{ width:9px; height:9px; }
+  /* Overflow toggle — a long selection (e.g. every account in the hot list)
+     collapses to a few chips + this pill instead of one chip per line. */
+  .ms-chip-more{ background:var(--page-bg); border-style:dashed; color:var(--blue); font-weight:600; cursor:pointer; padding:2.5px 8.75px; }
+  .ms-chip-more:hover{ background:var(--blue-bg); border-color:var(--blue); }
   .ms-input{ flex:1 1 70px; min-width:70px; border:none; outline:none; background:transparent; font-family:inherit; font-size:var(--fs-sm); line-height:20px; height:20px; color:var(--text-body); }
   .ms-input::placeholder{ color:var(--text-faint); }
   .ms-menu{ position:absolute; left:0; right:0; top:calc(100% + 5px); z-index:20; background:var(--popover); border:1.25px solid var(--border); border-radius:var(--r-md); padding:3.75px; max-height:222px; overflow:auto; animation:pop-in .12s ease both; }
@@ -1150,28 +1151,36 @@
 
   <!-- Call modal -->
   <div class="dialog-overlay" id="dlgCall" hidden>
-    <div class="dialog-panel" role="dialog" aria-modal="true" aria-label="Call" style="max-width:375px">
-      <button type="button" class="dialog-close" data-close aria-label="Close"><i data-lucide="x"></i></button>
-      <div class="contact-line"><span class="av" id="callAv">JH</span><span><span class="nm" id="callName">Jackson Howard</span> - <span class="ph" id="callNum">(512) 426-7843</span></span></div>
-      <div class="call-from">From: (555) 174-8731</div>
-      <div class="call-tabs">
-        <button type="button" class="call-tab active" data-callview="options">Call Options</button>
-        <button type="button" class="call-tab" data-callview="notes">Call Notes</button>
+    <div class="dialog-panel" role="dialog" aria-modal="true" aria-labelledby="dlgCallTitle" style="max-width:375px">
+      <div class="dialog-head">
+        <h2 class="dialog-title" id="dlgCallTitle">Call</h2>
+        <p class="dialog-desc">Live controls for this call.</p>
+        <button type="button" class="dialog-close" data-close aria-label="Close"><i data-lucide="x"></i></button>
       </div>
-      <div data-callpane="options">
-        <div class="call-grid">
-          <button type="button" class="call-ctrl" data-toggle><span class="ic"><i data-lucide="mic-off"></i></span>Mute</button>
-          <button type="button" class="call-ctrl"><span class="ic"><i data-lucide="grid-3x3"></i></span>Keypad</button>
-          <button type="button" class="call-ctrl" data-toggle><span class="ic"><i data-lucide="pause"></i></span>Hold</button>
-          <button type="button" class="call-ctrl"><span class="ic"><i data-lucide="plus"></i></span>Add</button>
-          <button type="button" class="call-ctrl" data-toggle><span class="ic"><i data-lucide="circle-dot"></i></span>Record</button>
-          <button type="button" class="call-ctrl"><span class="ic"><i data-lucide="ellipsis"></i></span>Call Actions</button>
+      <div class="dialog-body">
+        <div class="contact-line" style="margin-bottom:12.5px"><span class="av" id="callAv">JH</span><span><span class="nm" id="callName">Jackson Howard</span> - <span class="ph" id="callNum">(512) 426-7843</span></span></div>
+        <div class="call-from">From: (555) 174-8731</div>
+        <div class="call-tabs">
+          <button type="button" class="call-tab active" data-callview="options">Call Options</button>
+          <button type="button" class="call-tab" data-callview="notes">Call Notes</button>
+        </div>
+        <div data-callpane="options">
+          <div class="call-grid">
+            <button type="button" class="call-ctrl" data-toggle><span class="ic"><i data-lucide="mic-off"></i></span>Mute</button>
+            <button type="button" class="call-ctrl"><span class="ic"><i data-lucide="grid-3x3"></i></span>Keypad</button>
+            <button type="button" class="call-ctrl" data-toggle><span class="ic"><i data-lucide="pause"></i></span>Hold</button>
+            <button type="button" class="call-ctrl"><span class="ic"><i data-lucide="plus"></i></span>Add</button>
+            <button type="button" class="call-ctrl" data-toggle><span class="ic"><i data-lucide="circle-dot"></i></span>Record</button>
+            <button type="button" class="call-ctrl"><span class="ic"><i data-lucide="ellipsis"></i></span>Call Actions</button>
+          </div>
+        </div>
+        <div data-callpane="notes" hidden>
+          <div class="field" style="margin:0"><label class="field-label" for="callNotes">Notes</label><textarea class="dialog-textarea" id="callNotes" placeholder="Add call notes…" style="min-height:150px"></textarea></div>
         </div>
       </div>
-      <div data-callpane="notes" hidden>
-        <div class="field" style="margin:15px 0 0"><textarea class="dialog-textarea" id="callNotes" placeholder="Add call notes…" style="min-height:150px"></textarea></div>
+      <div class="dialog-foot" style="justify-content:center">
+        <button type="button" class="btn-danger" id="callGo" data-close><i data-lucide="phone-off"></i> End Call</button>
       </div>
-      <div class="call-hangup"><button type="button" class="call-go" id="callGo" data-close aria-label="Call"><i data-lucide="phone"></i></button></div>
     </div>
   </div>
 
@@ -1204,37 +1213,38 @@
   <!-- Email compose modal -->
   <div class="dialog-overlay" id="dlgEmail" hidden>
     <div class="dialog-panel dialog-wide" role="dialog" aria-modal="true" aria-labelledby="dlgEmailTitle">
-      <div class="dialog-head" style="margin-bottom:5px">
-        <h2 class="dialog-title" id="dlgEmailTitle" style="color:var(--blue-dark)">New Email</h2>
+      <div class="dialog-head">
+        <h2 class="dialog-title" id="dlgEmailTitle">New Email</h2>
+        <p class="dialog-desc">Compose a message to the broker.</p>
         <button type="button" class="dialog-close" data-close aria-label="Close"><i data-lucide="x"></i></button>
       </div>
       <div class="dialog-body">
-        <div class="email-row">
-          <span class="lbl">To:</span>
-          <span class="flex1"><span class="email-chip"><span id="emailTo">jhoward@arrivelogistics.com</span><button type="button" aria-label="Remove"><i data-lucide="x"></i></button></span></span>
-          <span class="email-ccbcc"><button type="button">CC</button><button type="button">BCC</button></span>
+        <div class="field">
+          <label class="field-label label-row">To <span class="email-ccbcc"><button type="button">CC</button><button type="button">BCC</button></span></label>
+          <div class="chip-wrap" style="max-height:none">
+            <span class="email-chip"><span id="emailTo">jhoward@arrivelogistics.com</span><button type="button" aria-label="Remove"><i data-lucide="x"></i></button></span>
+          </div>
         </div>
-        <div class="email-row">
-          <span class="lbl">Subject:</span>
-          <span class="flex1"><input type="text" class="email-inline-input" id="emailSubject" value="New Lead Deal"></span>
+        <div class="field">
+          <label class="field-label" for="emailSubject">Subject</label>
+          <input type="text" class="text-input" id="emailSubject" value="New Lead Deal">
         </div>
-        <div class="email-toolbar">
-          <button type="button" class="email-tb-tpl"><i data-lucide="layout-template"></i> Select Templates <i data-lucide="chevron-down"></i></button>
-          <span class="email-tb-sep"></span>
-          <button type="button" class="email-tb-btn" style="font-weight:700">B</button>
-          <button type="button" class="email-tb-btn" style="font-style:italic">I</button>
-          <button type="button" class="email-tb-btn" style="text-decoration:underline">U</button>
-          <button type="button" class="email-tb-btn"><i data-lucide="eraser"></i></button>
-          <button type="button" class="email-tb-btn" style="text-decoration:line-through">S</button>
-          <span class="email-tb-sep"></span>
-          <select class="email-tb-sel"><option>13</option><option>11</option><option>16</option><option>20</option></select>
-          <select class="email-tb-sel"><option>Arial</option><option>Inter</option><option>Georgia</option></select>
-          <span class="email-tb-sep"></span>
-          <button type="button" class="email-tb-btn"><i data-lucide="align-left"></i></button>
-          <button type="button" class="email-tb-btn"><i data-lucide="list"></i></button>
-          <button type="button" class="email-tb-btn"><i data-lucide="indent"></i></button>
+        <div class="field" style="margin-bottom:0">
+          <label class="field-label">Message</label>
+          <div class="email-compose">
+            <div class="email-toolbar">
+              <button type="button" class="email-tb-tpl"><i data-lucide="layout-template"></i> Templates <i data-lucide="chevron-down"></i></button>
+              <span class="email-tb-sep"></span>
+              <button type="button" class="email-tb-btn" style="font-weight:700">B</button>
+              <button type="button" class="email-tb-btn" style="font-style:italic">I</button>
+              <button type="button" class="email-tb-btn" style="text-decoration:underline">U</button>
+              <span class="email-tb-sep"></span>
+              <button type="button" class="email-tb-btn"><i data-lucide="align-left"></i></button>
+              <button type="button" class="email-tb-btn"><i data-lucide="list"></i></button>
+            </div>
+            <textarea class="email-body" id="emailBody" placeholder="Message"></textarea>
+          </div>
         </div>
-        <textarea class="email-body" id="emailBody" placeholder="Message"></textarea>
       </div>
       <div class="dialog-foot has-note">
         <button type="button" class="email-attach"><span class="ic"><i data-lucide="paperclip"></i></span> Add Attachment</button>
@@ -1827,20 +1837,29 @@
     selectedRows().forEach(function(r){ if(r.reps) out = out.concat(r.reps); else out.push(r); });
     return out;
   }
+  var MS_CHIP_LIMIT = 4; // collapse a large selection to N chips + "+N others"
   function makeAcctSelect(ids){
     var field = document.getElementById(ids.field), control = document.getElementById(ids.control),
         input = document.getElementById(ids.input), menu = document.getElementById(ids.menu);
-    var chosen = {};
+    var chosen = {}, expanded = false;
     function inits(name){ var p=(name||'').trim().split(/\s+/); return (((p[0]||'')[0]||'')+((p[p.length-1]||'')[0]||'')).toUpperCase(); }
     function label(a){ return a.company+' | '+a.rep+' | Roanoke, VA'; }
     function renderChips(){
       control.querySelectorAll('.ms-chip').forEach(function(c){ c.remove(); });
-      Object.keys(chosen).forEach(function(id){
+      var ids2 = Object.keys(chosen);
+      var shown = (!expanded && ids2.length > MS_CHIP_LIMIT) ? ids2.slice(0, MS_CHIP_LIMIT) : ids2;
+      shown.forEach(function(id){
         var a = chosen[id], chip = document.createElement('span'); chip.className = 'ms-chip';
         chip.innerHTML = '<span class="av">'+esc(inits(a.rep))+'</span>'+esc(label(a))+
           '<button type="button" data-id="'+esc(id)+'" aria-label="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>';
         control.insertBefore(chip, input);
       });
+      if(ids2.length > MS_CHIP_LIMIT){
+        var more = document.createElement('button');
+        more.type = 'button'; more.className = 'ms-chip ms-chip-more'; more.setAttribute('data-more','1');
+        more.textContent = expanded ? 'Show less' : ('+' + (ids2.length - shown.length) + ' others');
+        control.insertBefore(more, input);
+      }
       resnapOpen();
     }
     function renderMenu(){
@@ -1858,6 +1877,8 @@
     input.addEventListener('focus', openMenu);
     input.addEventListener('input', function(){ if(menu.hidden) openMenu(); else renderMenu(); });
     control.addEventListener('click', function(e){
+      var mo = e.target.closest('.ms-chip-more');
+      if(mo){ expanded = !expanded; renderChips(); return; }
       var rm = e.target.closest('.ms-chip button');
       if(rm){ delete chosen[rm.getAttribute('data-id')]; renderChips(); if(!menu.hidden) renderMenu(); return; }
       if(!e.target.closest('.ms-chip')) input.focus();
@@ -1870,7 +1891,7 @@
     });
     document.addEventListener('mousedown', function(e){ if(field && !field.contains(e.target)) closeMenu(); });
     return {
-      set:function(rows){ chosen = {}; (rows||[]).forEach(function(r){ chosen[r.id] = r; }); input.value=''; renderChips(); closeMenu(); },
+      set:function(rows){ chosen = {}; expanded = false; (rows||[]).forEach(function(r){ chosen[r.id] = r; }); input.value=''; renderChips(); closeMenu(); },
       count:function(){ return Object.keys(chosen).length; }
     };
   }
@@ -1954,7 +1975,7 @@
     var input   = document.getElementById('tlInput');
     var menu    = document.getElementById('tlMenu');
     var field   = document.getElementById('tlSendTo');
-    var chosen  = {};        // handle -> contact
+    var chosen  = {}, expanded = false;        // handle -> contact
     var curCompany = null;
 
     function initials(name){ var p=name.trim().split(/\s+/); return (((p[0]||'')[0]||'')+((p[p.length-1]||'')[0]||'')).toUpperCase(); }
@@ -1969,7 +1990,9 @@
     }
     function renderChips(){
       control.querySelectorAll('.ms-chip').forEach(function(c){ c.remove(); });
-      Object.keys(chosen).forEach(function(h){
+      var handles = Object.keys(chosen);
+      var shown = (!expanded && handles.length > MS_CHIP_LIMIT) ? handles.slice(0, MS_CHIP_LIMIT) : handles;
+      shown.forEach(function(h){
         var c = chosen[h];
         var chip = document.createElement('span');
         chip.className = 'ms-chip';
@@ -1977,6 +2000,12 @@
           '<button type="button" data-h="'+esc(h)+'" aria-label="Remove '+esc(c.name)+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>';
         control.insertBefore(chip, input);
       });
+      if(handles.length > MS_CHIP_LIMIT){
+        var more = document.createElement('button');
+        more.type = 'button'; more.className = 'ms-chip ms-chip-more'; more.setAttribute('data-more','1');
+        more.textContent = expanded ? 'Show less' : ('+' + (handles.length - shown.length) + ' others');
+        control.insertBefore(more, input);
+      }
       resnapOpen();   // chip rows can change the panel height, re-centre on grid
     }
     var CHK = '<span class="ms-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>';
@@ -2000,6 +2029,8 @@
     input.addEventListener('focus', openMenu);
     input.addEventListener('input', function(){ if(menu.hidden) openMenu(); else renderMenu(); });
     control.addEventListener('click', function(e){
+      var mo = e.target.closest('.ms-chip-more');
+      if(mo){ expanded = !expanded; renderChips(); return; }
       var rm = e.target.closest('.ms-chip button');
       if(rm){ delete chosen[rm.getAttribute('data-h')]; renderChips(); if(!menu.hidden) renderMenu(); return; }
       if(!e.target.closest('.ms-chip')) input.focus();
@@ -2018,7 +2049,7 @@
       renderChips(); renderMenu(); input.focus();
     });
     document.addEventListener('mousedown', function(e){ if(field && !field.contains(e.target)) closeMenu(); });
-    custSel.addEventListener('change', function(){ curCompany = custSel.value; chosen = {}; renderChips(); if(!menu.hidden) renderMenu(); });
+    custSel.addEventListener('change', function(){ curCompany = custSel.value; chosen = {}; expanded = false; renderChips(); if(!menu.hidden) renderMenu(); });
 
     window.openTruckList = function(prefCompany, prefRepNames){
       if(!custSel.options.length){
@@ -2026,7 +2057,7 @@
       }
       curCompany = (prefCompany && companies.indexOf(prefCompany) !== -1) ? prefCompany : companies[0];
       custSel.value = curCompany;
-      chosen = {};
+      chosen = {}; expanded = false;
       if(prefRepNames && prefRepNames.length){
         contactsFor(curCompany).forEach(function(c){ if(prefRepNames.indexOf(c.name) !== -1) chosen[c.handle] = c; });
       }
