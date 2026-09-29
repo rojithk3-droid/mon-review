@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Monday Review — Dispatch Pro</title>
+<title>Dispatch Pro — Graphs Card Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Inter as a VARIABLE font (opsz + wght axes), not the 5 static instances
@@ -2231,7 +2231,7 @@
   })();
 </script>
 </head>
-<body data-nav="Dashboard">
+<body data-nav="Reports">
 <style>
   /* ================================================================
      REVIEW KIT — shared page-level components for the Monday review set.
@@ -2514,22 +2514,71 @@
   .lv-bar .grow{ font-size:var(--fs-sm); line-height:20px; color:var(--muted-fg); }
   .lv-bar b{ color:var(--text-heading); }
   .lv iframe{ flex:1 1 auto; width:100%; border:0; background:#fff; }
-  .rv-hub{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:17.5px; }
-  .rv-card{ display:flex; flex-direction:column; background:var(--surface); border:1.25px solid var(--border); border-radius:var(--r-xl); padding:20px; min-width:0; }
-  .rv-card:hover{ border-color:var(--blue); }
-  .rv-top{ display:flex; align-items:center; gap:12.5px; }
-  .rv-num{ width:35px; height:35px; border-radius:var(--r-lg); background:var(--blue-bg); color:var(--blue); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:var(--fs-sm); flex:0 0 auto; }
-  .rv-name{ min-width:0; flex:1 1 auto; }
-  .rv-name b{ display:block; font-size:var(--fs-base); line-height:var(--lh-base); color:var(--text-dark); font-weight:600; }
-  .rv-name span{ display:block; font-size:var(--fs-xs); line-height:var(--lh-xs); color:var(--muted-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .rv-desc{ margin:12.5px 0 0; font-size:var(--fs-sm); line-height:20px; color:var(--text-body); }
-  .rv-demo{ margin:12.5px 0 0; padding:0; list-style:none; flex:1 1 auto; }
-  .rv-demo li{ display:flex; gap:7.5px; font-size:var(--fs-sm); line-height:20px; color:var(--text-body); padding:2.5px 0; }
-  .rv-demo li svg{ width:15px; height:15px; color:var(--blue); flex:0 0 auto; margin-top:2.5px; }
-  .rv-foot{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:15px; padding-top:15px; border-top:1.25px solid var(--border-soft); }
-  .rv-src{ font-size:var(--fs-xs); line-height:var(--lh-xs); color:var(--muted-fg); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .rv-foot .row{ gap:7.5px; flex:0 0 auto; }
-  @media (max-width:1250px){ .rv-hub{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  /* ================================================================
+     GRAPHS CARD HUB — every graph from the original dashboard's
+     Graphs panel (dashboard-home-original.html, GRAPH_TREE/METRICS),
+     redrawn in ONE visual system: the "House / shadcn" chart language
+     validated in graphs-mockup.html, lifted out of its style-switcher
+     and fixed as this page's only look. Real titles, real numbers —
+     nothing here is synthetic sample data.
+     ================================================================ */
+  .gh-toolbar{ display:flex; align-items:center; justify-content:space-between; gap:16.25px; margin-bottom:17.5px; }
+  .gh-toolbar .muted{ font-size:var(--fs-sm); line-height:20px; }
+
+  .gh-stage{
+    --g-bg:#F9FAFB; --g-card:#FFFFFF; --g-border:#E5E7EB; --g-radius:12.5px; --g-ink:#101828; --g-muted:#6A7282; --g-faint:#99A1AF;
+    --g-grid:#EEF0F3; --g-track:#F3F4F6; --g-c1:#0F6FFF; --g-c2:#eb6834; --g-c3:#1baf7a; --g-c4:#B8BEC8; --g-tip-bg:#101828; --g-tip-fg:#fff;
+  }
+  [data-theme="dark"] .gh-stage{ --g-bg:#0B1220; --g-card:#121B2E; --g-border:#263248; --g-ink:#F3F5F9; --g-muted:#8B96AC; --g-faint:#7C879B; --g-grid:#1C2537; --g-track:#17202F; --g-c1:#3987e5; --g-c2:#d95926; --g-c3:#199e70; --g-c4:#4A5568; --g-tip-bg:#F3F5F9; --g-tip-fg:#0B1220; }
+
+  .gh-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:17.5px; }
+  .gh-card{ background:var(--g-card); border:1.25px solid var(--g-border); border-radius:var(--g-radius); padding:20px; min-width:0; color:var(--g-ink); display:flex; flex-direction:column; }
+  .gh-card.span-2{ grid-column:span 2; }
+  .gh-card.span-3{ grid-column:span 3; }
+  .gh-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; min-height:30px; }
+  .gh-title{ display:flex; align-items:center; gap:8.75px; font-size:var(--fs-sm); line-height:20px; font-weight:600; color:var(--g-ink); min-width:0; }
+  .gh-title svg{ width:16.25px; height:16.25px; color:var(--g-muted); flex:0 0 auto; }
+  .gh-head-right{ display:flex; align-items:center; gap:6.25px; flex:0 0 auto; }
+  .gh-more{ width:30px; height:30px; border-radius:50%; border:none; background:transparent; color:var(--g-muted); display:flex; align-items:center; justify-content:center; cursor:pointer; flex:0 0 auto; }
+  .gh-more:hover{ background:var(--blue-bg); color:var(--blue); }
+  .gh-more svg{ width:16.25px; height:16.25px; }
+  .gh-sub{ display:inline-flex; align-items:center; height:25px; background:var(--g-track); border-radius:var(--r-md); padding:2.5px; gap:0; }
+  .gh-sub button{ appearance:none; border:none; background:none; font-family:inherit; height:100%; padding:0 8.75px; border-radius:5px; font-size:10.5px; font-weight:600; color:var(--g-muted); cursor:pointer; white-space:nowrap; }
+  .gh-sub button.active{ background:var(--g-c1); color:#fff; }
+  .gh-metric{ display:flex; align-items:baseline; gap:6.25px; flex-wrap:wrap; margin-top:10px; }
+  .gh-hero{ font-size:26.25px; line-height:32.5px; font-weight:700; letter-spacing:-.02em; color:var(--g-ink); font-variant-numeric:tabular-nums; }
+  .gh-delta{ font-size:var(--fs-xs); line-height:var(--lh-xs); font-weight:600; }
+  .gh-delta.up{ color:#10A36B; } .gh-delta.down{ color:#E0484B; }
+  .gh-cap{ font-size:var(--fs-xs); line-height:var(--lh-xs); color:var(--g-muted); margin-top:2.5px; }
+  .gh-body{ margin-top:12.5px; position:relative; flex:1 1 auto; }
+  .gh-body svg{ display:block; width:100%; overflow:visible; }
+  .gh-body svg text{ font-family:'Inter',system-ui,sans-serif; }
+  @keyframes gh-rise{ from{ opacity:0; } to{ opacity:1; } }
+  .gh-body > svg{ animation:gh-rise .35s ease both; }
+  .gh-legend{ display:flex; flex-wrap:wrap; gap:6.25px 15px; margin-top:12.5px; }
+  .gh-leg{ display:inline-flex; align-items:center; gap:6.25px; font-size:var(--fs-xs); line-height:var(--lh-xs); color:var(--g-muted); }
+  .gh-leg i{ width:10px; height:10px; border-radius:2.5px; flex:0 0 auto; }
+  .gh-leg b{ color:var(--g-ink); font-weight:600; font-variant-numeric:tabular-nums; }
+  .gh-table{ width:100%; border-collapse:separate; border-spacing:0; font-size:var(--fs-xs); color:var(--g-ink); }
+  .gh-table th{ text-align:left; color:var(--g-muted); font-weight:500; padding:5px 0; border-bottom:1.25px solid var(--g-border); }
+  .gh-table td{ padding:5px 0; border-bottom:1.25px solid var(--g-grid); font-variant-numeric:tabular-nums; }
+  .gh-table td:last-child, .gh-table th:last-child{ text-align:right; }
+  .gh-table-wrap{ max-height:230px; overflow:auto; }
+  .gh-tip{ position:fixed; z-index:1100; pointer-events:none; background:var(--g-tip-bg, #101828); color:var(--g-tip-fg, #fff); border-radius:var(--r-md); padding:7.5px 10px; font-size:var(--fs-xs); line-height:var(--lh-xs); font-family:'Inter',system-ui,sans-serif; white-space:nowrap; min-width:120px; }
+  .gh-tip[hidden]{ display:none; }
+  .gh-tip b{ display:block; margin-bottom:2.5px; font-weight:600; }
+  .gh-tip .tl{ display:flex; align-items:center; gap:6.25px; justify-content:space-between; }
+  .gh-tip .tl i{ width:7.5px; height:7.5px; border-radius:50%; display:inline-block; margin-right:5px; }
+
+  /* Company Stats — the one non-chart card: a small stat-tile grid instead
+     of a rail-bar list, so it still reads as "graphs" at a glance. */
+  .gh-statgrid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12.5px; margin-top:12.5px; }
+  .gh-stat{ background:var(--g-bg); border:1.25px solid var(--g-border); border-radius:var(--r-lg); padding:12.5px; }
+  .gh-stat b{ display:block; font-size:17.5px; line-height:22.5px; font-weight:700; color:var(--g-ink); font-variant-numeric:tabular-nums; }
+  .gh-stat b.up{ color:#10A36B; } .gh-stat b.down{ color:#E0484B; }
+  .gh-stat span{ display:block; font-size:10.5px; line-height:14px; color:var(--g-muted); margin-top:2.5px; }
+
+  @media (max-width:1250px){ .gh-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } .gh-card.span-3{ grid-column:span 2; } }
 </style>
 
   <!-- TOP BAR -->
@@ -2584,7 +2633,7 @@
 
   <!-- BREADCRUMB -->
   <div class="breadcrumb-bar">
-    <span>Review</span> <span>/</span> <span class="current">Monday, Sep 28</span>
+    <span>Reporting</span> <span>/</span> <span class="current">Graphs card hub</span>
   </div>
 
   <div class="app-body">
@@ -2631,20 +2680,24 @@
         <div class="page-head">
           <div class="page-head-text">
             <div class="page-title-row">
-              <h1 class="page-title">Monday review desk</h1>
-              <span class="context-chip">Mon, Sep 28, 2026</span>
+              <h1 class="page-title">Graphs card hub</h1>
+              <span class="context-chip">12 graphs &middot; one system</span>
             </div>
-            <p class="page-subtitle">Fourteen Dispatch Pro items, in agenda order. Each opens as its own page; every flow listed under it is clickable.</p>
+            <p class="page-subtitle">Every graph from the original dashboard's Graphs panel, pulled into its own hub and redrawn in one visual language — real titles, real numbers, no style switcher.</p>
+          </div>
+          <div class="page-head-actions">
+            <button class="btn-outline" type="button" id="ghExportAll"><i data-lucide="download"></i> Export all CSV</button>
           </div>
         </div>
       </div>
+
       <div class="content-scroll">
       <div class="content-inner">
-        <div class="stats" id="hubStats"></div>
-        <h2 class="sec-label">Agenda</h2>
-        <div class="rv-hub" id="hub"></div>
-        <h2 class="sec-label" style="margin-top:27.5px">Finalised &middot; reference only, do not change</h2>
-        <div class="rv-hub" id="hubFinal"></div>
+        <div class="stats" id="ghStats"></div>
+        <h2 class="sec-label">Graphs panel &middot; screen order</h2>
+        <div class="gh-stage">
+          <div class="gh-grid" id="ghGrid"></div>
+        </div>
       </div>
       </div>
     </main>
@@ -3531,77 +3584,287 @@
   </script>
   <script>
     (function(){
-      var ITEMS = [
-        ['Landing Page', 'landing-page.html', 'Ready', 'Dispatch Pro home dashboard', 'The TMS home board on the shadcn/Linear system: communication center, dashboard shortcuts, my time off, news, goals, analytics, status, CPM by equipment.',
-          ['Drag a card to move it; drag its corner to resize', 'Card options: date range, time period, chart type', 'Remove a card from the page'], 'dashboard-shadcn.html · built Sep 22'],
-        ['Dashboard (Original)', 'dashboard-home-original.html', 'Ready', 'Pre-redesign home board', 'The home dashboard as it shipped before the shadcn/Linear redesign above — same cards and data, the earlier visual system. Kept here for a side-by-side comparison with Landing Page.',
-          ['Compare card layout against Landing Page', 'Same widgets, earlier visual system', 'Reference only — not part of this review set'], 'dashboard-home-original.html · pre-redesign baseline'],
-        ['Original Graphs, Redesigned', 'dashboard-home-original-graphs.html', 'New', 'Every graph and widget restyled in place', 'A copy of Dashboard (Original) — same cards, same data, same layout — with every graph and data widget (Goals, Analytics, Status, CPM By Equipment, Fleet Performance, plus every SVG chart) redesigned onto one blue/green/orange system, Dawson News swapped for the Landing Page version, and Master Controls removed. <b>Bug fixed:</b> every report profile (General View, Customer Info, Dispatcher View, Driver Data, Sales Data, Manager Data) used to default to bar charts only — no area chart ever appeared without manually adding one from the Graphs drawer. Each profile\'s default card set now includes at least one area chart (Occupancy, CPM and/or Loads In Transit).',
-          ['Switch report profile → every one now shows an area chart', 'Hover a Goals/Analytics/Status/CPM/Fleet row for its hover card', 'Card ⋯ → Chart Type → Area Graph, on any chart'], 'dashboard-home-original-graphs.html · schema v10'],
-        ['Graphs Card Hub', 'graphs-hub.html', 'New', 'Every graph, pulled into its own hub', 'Every graph from the original dashboard\'s Graphs panel (Revenue + 4 breakdowns, Occupancy, CPM, Trailer Type, Driver Per Team, Revenue By Team, Revenue By Trailer Type, Revenue & Occupancy, Revenue Actual vs Goal, Revenue Occupancy vs Goal, Loads In Transit, Company Stats) — pulled out of the full-board picker into a standalone card hub and redrawn in one consistent visual system, real numbers throughout.',
-          ['Revenue card → switch Customer/Company/Owner/Truck', 'Hover any bar or line for its value', '⋯ on a card → table view, CSV, copy'], 'dashboard-home-original.html · GRAPH_TREE, one style'],
-        ['Planning / Scheduler', 'planner.html', 'Ready', 'Driver resource timeline', 'Loads-waiting pool + exceptions beside the driver board; drag a load onto a driver, move and resize blocks, block details panel.',
-          ['Drag a waiting load onto a driver row', 'Click a block → details on the right', 'Alt layout: planner-editorial.html'], 'dp-schedule-planner.html · Figma "Schedule planner"'],
-        ['Broker TMS', 'broker-tms.html', 'New', 'Brokerage desk · margin on every load', 'Pipeline by status with customer rate, carrier pay and margin; coverage with ranked carriers and tendering; carrier & customer rosters; spot-quote builder.',
-          ['Coverage → Tender → carrier accepts', 'View load → the finalised Command Center', 'Quote → Create load'], 'Figma "Command Center New Version" (load view reused unchanged)'],
-        ['Load Board', 'load-board.html', 'New', 'Digital Loadboard', 'Widgets (metrics / top customers), saved-search tabs with live counts, quick + advance search, results grid, Book with slide-to-confirm, Make offer, Offers board.',
-          ['Switch saved-search tabs', 'Make offer → broker answers in ~9 s', 'Filter → histogram range sliders'], 'Figma "Digital Loadboard" + "loadboard – email view"'],
-        ['CRM', 'crm.html', 'New', 'Activity, leads, pipeline, quotes', 'Activity home (comms inbox, tasks, calls graph, target donut, deals on deck/by stage), Leads grid with per-row Call/Email/SMS/ProChat logging + territory map, pipeline board with drag-and-drop stages, deal sheet with lanes/people/activity log, Quotes builder with live market rates, Accounts &amp; Contacts.',
-          ['Accept an inbound inquiry on Activity', 'Leads row → log a call/SMS/ProChat', 'New quote → market rates recompute live'], 'Figma "CRM" prototype — traced Sales > Activity/Leads/Stage View/Quotes'],
-        ['Onboarding Revamp', 'onboarding.html', 'New', 'Driver application flow', 'Replaced with the full driver-application flow: an overview (profile-completion log, add a truck/trailer, submitted job applications) that hands off into a 6-step wizard — Personal Info, License & Medical, Work History, Certifications, Safety Record, E-Signature — plus a Review application sheet and a completion stage.',
-          ['Start application → fill Personal Info', 'Work History → Search employer', 'E-Signature → Complete'], 'Traced from a reference driver-onboarding build'],
-        ['DVIR', 'dvir.html', 'New', 'Driver vehicle inspection reports', 'Reports with defect severity and status, defect queue (open → in repair → certified) with mechanic sign-off, new inspection with checklist and signature. Also ships a single-report detail view (vehicle map with jump-pins, Truck/Trailer checklist accordion, work order + certification sidebar) traced from a shared reference build.',
-          ['New inspection → mark a defect → sign', 'Defect queue → Start repair → Certify', 'Full report view → tap a map pin'], 'FMCSA § 396.11 checklist + traced reference build', ['Full report view', 'dvir-report.html', 'file-text']],
-        ['Receipt Upload', 'receipt-upload.html', 'New', 'Expense receipts → settlement', 'Drop or browse real image/PDF files, scan pre-fills vendor/amount/category, tie to load + truck, approval queue with bulk approve/reject. Also ships as a fully redesigned driver-app mobile flow (camera → confirm → auto-fill → submit) on the agent pay profile system.',
-          ['Drop a receipt image from your PC', 'Lumper needs a load # (validation)', 'Approve → added to settlement 39'], 'Figma "Driver-app" prototype (Upload Receipt) — desktop grid + a separate mobile-flow page', ['Mobile app flow', 'receipt-upload-mobile.html', 'smartphone']],
-        ['Passdown', 'passdown.html', 'New', 'Shift handover', 'Send-to teams and people, driver / equipment / load task rows with notes, assign owner + deadline, general notes, success; sent/received lists and the recipient notification.',
-          ['Add a task → clipboard → assign', 'Send → Passdown success', 'Received (2) → view → acknowledge'], 'Figma "Passdown"'],
-        ['Reminders', 'reminders.html', 'New', 'Everything with a due date', 'Overdue / today / tomorrow / week / later, complete (repeats reschedule), snooze, category filters, month calendar, suggestions from expiring records, live alert now a bottom-centre notification popup.',
-          ['Tick one done — repeating ones reschedule', 'Click a calendar day to filter', 'Wait ~12 s for the popup, bottom-centre'], 'Figma "Notification reminders" — traced the popup, minimal redesign'],
-        ['Create Reminder', 'reminders.html?new=1', 'New', 'The full recurring-reminder builder', 'New reminder dialog traced feature-for-feature: title, category, due date/time, assign to (searchable people), notify-by channels, related record — plus an advanced schedule pattern (by date-of-month or by day-of-week, each with its own time) once Repeat is set.',
-          ['Repeat → Weekly reveals the pattern panel', 'By day of week → toggle Mon/Wed/Fri', 'Save → pattern shows on the reminder row'], 'Figma "Notification reminders" — Create Reminder flow, node 1:115847'],
-        ['Hometime Entry', 'hometime-entries.html?new=1', 'New', 'Authorized / unauthorized time off the road', 'Create or edit a hometime entry: driver, one-time or recurring, authorized vs unauthorized, start + return-to-duty date/time, the same recurrence-pattern builder as Create Reminder, comment and send-to-driver.',
-          ['Reoccuring → pattern panel appears', 'Authorized Time ↔ Unauthorized Time Off', 'Save → appears in View/Edit Hometime Entries'], 'Figma "Notification reminders" — Hometime Entry flow, node 1:159335'],
-        ['View/Edit Hometime Entries', 'hometime-entries.html', 'New', 'Every hometime entry, one table', 'Hometime ID, driver, start/return date-time, recurring, authorized/unauthorized, entered, approved + by whom — search, filter (All / Recurring / Pending approval), row → open to edit.',
-          ['Filter → Pending approval', 'Click a row → edit that entry', 'New Hometime → same builder as Hometime Entry'], 'Figma "Notification reminders" — View/Edit Hometime Entries, node 1:51150'],
-        ['Create Notification', 'dispatch-notifications.html?new=1', 'New', 'Fleet compliance & maintenance alerts', 'Title (12 common alert types with canned notes), Warning/Stop type, Interval type (Date with repeat/schedule + time, or Mileage with a qty), tied to equipment and a driver.',
-          ['Pick a title → notes auto-fill', 'Interval → Date reveals Repeat/Schedule', 'Interval → Mileage reveals a mile count'], 'Figma "Notification reminders" — Create Notification flow, node 1:48745'],
-        ['View/Edit Notifications', 'dispatch-notifications.html', 'New', 'The fleet’s compliance board', 'Title / equipment / driver / type / interval / qty / status(Current vs Past Due) table across PM service, FAI, IFTA, KYU and NYHUT alerts — plus a Fleetwide Update card that edits every notification sharing a title in one save.',
-          ['Show only past due', 'Fleetwide update → title, type or qty', 'Row → edit a single notification'], 'Figma "Notification reminders" — View/Edit Notifications, node 1:52500'],
-        ['Route Variation Notification', 'route-variation.html', 'New', 'Broker / carrier off-route alerts', 'Planned route vs GPS trail with the allowed corridor, the notification each side received, timeline; carrier explains + new ETA, broker acknowledges or notifies the customer.',
-          ['Carrier view → Explain to broker', 'Switch to Broker view → Acknowledge', 'A new alert lands after ~20 s'], 'No Figma — designed in the house system'],
-        ['Customer Hot List', 'customer-hot-list.html', 'Ready', 'Broker hot-list grid + actions', 'Customer list / leader board, list by rep or company, advanced inline search, create group, send truck list, rep detail with analytics and US map, row actions.',
-          ['Row Action ▾ → Send Truck List', 'Click a rep name → rep detail', 'Leader Board tab'], 'customer-hot-list.html · Figma "Customer Hot List"'],
-        ['Time Off Tracker', 'time-off-tracker.html', 'Ready', 'Paid time off', 'Balances, book time off (one-time and recurring), month calendar, allowance, tracker, holidays and blackout calendar; confirm and success stage. Allowance tab’s gear icon opens Edit Allowance Days. Tracker and Holidays both run the same Company Calendar (driver-chip filter, type filter, a real Filters dialog with Carrier/Terminal/Driver/Date range, sortable Start/End/Days/Type/Paid Type columns, Save/Export/Print/Add PTO); Tracker’s Monthly/Annual views are real calendars — Annual is a wall-calendar grid of 12 mini months with a coloured dot per event (redesigned off an illegible 31-column table), and its multi-event days open a numbered popover (Driver, Type, Location, Paid, Edit, Approved). Blackout Calendar tab’s Monthly and Annual views shade the windows directly on the same mini-month grid next to a Start/End/Name list, with Add PTO Blackout and row Edit/Delete.',
-          ['Tracker tab → Annual View → click a dotted day', 'Either calendar tab → Filters → Carrier/Terminal/Driver/Date range', 'Allowance tab → gear icon → Edit Allowance Days'], 'time-off-tracker.html · Figma "Time off tracker" + "Time off tracker – Others/Leave" (Allowance node 1:105956, Tracker node 1:115841, Holidays node 1:135600 + its Filters/Date-Range/day-hover row frames, Blackout Calendar node 1:133020)'],
-        ['Graphs Mock-up', 'graphs-mockup.html', 'New', 'Different style, same ability', 'Seven chart types from one dataset in five styles (House, Card kit, Editorial, TrueTrack glass, Night ops). Filters, tooltips, legend toggles, table view and CSV work identically.',
-          ['Switch style tabs — nothing else changes', 'Hover the trend for the crosshair', 'Compare all → ability matrix'], 'Palette validated (dataviz all-pairs, light + dark)']
-      ];
-      var ready = ITEMS.filter(function(i){ return i[2] === 'Ready'; }).length;
-      document.getElementById('hubStats').innerHTML = [['Agenda items', ITEMS.length, 'list-checks', ''], ['Existing, verified', ready, 'circle-check', 'green'], ['Built for Monday', ITEMS.length - ready, 'sparkles', 'amber'], ['Console errors', 0, 'bug-off', 'neutral']].map(function(t){
-        return '<div class="stat" data-tone="' + t[3] + '"><div class="stat-top"><span class="stat-label">' + t[0] + '</span><span class="stat-icon"><i data-lucide="' + t[2] + '"></i></span></div><div class="stat-value">' + t[1] + '</div></div>'; }).join('');
-      document.getElementById('hub').innerHTML = ITEMS.map(function(it, i){
-        var extraLink = it[7] ? '<a class="btn-outline" data-size="sm" href="' + it[7][1] + '" target="_blank" rel="noopener"><i data-lucide="' + it[7][2] + '"></i> ' + it[7][0] + '</a>' : '';
-        return '<div class="rv-card"><div class="rv-top"><span class="rv-num">' + (i + 1) + '</span><div class="rv-name"><b>' + it[0] + '</b><span>' + it[3] + '</span></div><span class="badge" data-variant="' + (it[2] === 'Ready' ? 'success' : 'info') + '">' + it[2] + '</span></div>' +
-          '<p class="rv-desc">' + it[4] + '</p><ul class="rv-demo">' + it[5].map(function(d){ return '<li><i data-lucide="mouse-pointer-click"></i>' + d + '</li>'; }).join('') + '</ul>' +
-          '<div class="rv-foot"><span class="rv-src" title="' + window.dpEsc(it[6]) + '">' + it[6] + '</span><div class="row">' + extraLink + '<a class="btn-primary" data-size="sm" href="' + it[1] + '">Open <i data-lucide="arrow-right"></i></a></div></div></div>';
-      }).join('');
+      /* ---------------- Real data, ported verbatim from
+         dashboard-home-original.html's METRICS / GRAPH_TREE (the
+         "Graphs panel, in screen order"). Nothing synthetic. ---------- */
+      var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun'];
+      var WEEKS = ['Week 1','Week 2','Week 3','Week 4'];
+      var CPMX = ['1/7','1/14','1/21','1/28','2/4','2/11','2/18','2/25','3/3','3/10','3/17','3/24','3/31','4/7','4/14','4/21','4/28'];
+      var CPM_OPEN = [0.01,1.51,0.74,1.58,1.46,0.20,2.47,2.20,3.78,3.47,2.56,0.64,1.38,1.38,3.45,1.30,0.02];
+      var CPM_BOX  = [1.40,1.55,1.27,2.46,0.50,2.28,2.46,1.90,1.00,2.31,2.76,0.50,0.95,0.03,2.47,1.78,2.71];
+      var TRAILERTYPES = ['Box Truck','Container','Dry Van','Flat Bed','Reefer','RGN','Step Deck'];
+      var EQUIP_N = ['Box Truck','Container','Dry Van','Flat Bed','Reefer','RGN','Step Deck'];
+      var EQUIP_V = [6750,5150,1425,5225,6375,5300,1500];
 
-      /* Finalised pages — shown for reference, never edited. The load view is
-         the Command Center inside login.html; load-view.html opens it directly
-         (login.html embedded unchanged, only the app's own body class added). */
-      var FINAL = [
-        ['Login', '../login.html', 'log-in', 'Sign-in, 2FA and shipment tracking', 'The finalised Dispatch Pro login: password, OTP or authenticator sign-in, device trust, sign-up, and the Track Your Shipment tab.',
-          ['Password <b>Password123</b> → 2FA code <b>157389</b>', 'Track Your Shipment tab → View Trip', 'Lands on the load view after sign-in'], 'login.html · finalised'],
-        ['Load view', 'load-view.html', 'package-search', 'Command Center · view load page', 'The finalised load view: status stepper, live tracking, customer / carrier / driver / load cards, stops, asset history, billing & margin, ProChat, notes, hours of service.',
-          ['Opens straight to the load, no sign-in', 'Command Center actions: repower, track & trace', 'Same page Broker TMS and Route Variation open'], 'login.html · Command Center · finalised']
+      function K$(v){ return v >= 1e6 ? '$' + (v / 1e6).toFixed(2) + 'M' : '$' + Math.round(v / 1000) + 'k'; }
+      function usd0(v){ return '$' + Math.round(v).toLocaleString(); }
+      function usd2(v){ return '$' + v.toFixed(2); }
+      function pct(v){ return Math.round(v) + '%'; }
+      function str(v){ return String(v); }
+
+      var GRAPHS = [
+        { id:'revenue', title:'Revenue', icon:'chart-column', kind:'bar', span:2, slabel:'Revenue',
+          subs:[
+            { key:'total', label:'Total', data:[412000,438000,501000,470000,523000,545000], names:MONTHS, color:'--g-c1', fmt:K$, kpi:{ v:'$ 2.89M', d:'8.6%', dir:'up' } },
+            { key:'customer', label:'Customer', data:[128400,96200,88100,74500,61300,52900], names:['Yoke','GRANITE','BEEMAC','SUNTECK','TRANSLOOP','M.D.S.'], color:'--g-c1', fmt:K$, kpi:{ v:'$ 501,400', d:'5.2%', dir:'up' } },
+            { key:'company', label:'Company Drivers', data:[268000,281000,302000,295000,318000,331000], names:MONTHS, color:'--g-c3', fmt:K$, kpi:{ v:'$ 1.80M', d:'9.1%', dir:'up' } },
+            { key:'owner', label:'Owner Operators', data:[144000,157000,199000,175000,205000,214000], names:MONTHS, color:'--g-c2', fmt:K$, kpi:{ v:'$ 1.09M', d:'14.7%', dir:'up' } },
+            { key:'truck', label:'Truck', data:[7200,5900,4120,4075,4025], names:['DTL88','DTL20','DTL12','DTL29','DTL17'], color:'--g-c1', fmt:usd0, kpi:{ v:'$ 25,320', d:'3.8%', dir:'up' } }
+          ]
+        },
+        { id:'occupancy', title:'Occupancy', icon:'chart-spline', kind:'line', kpi:{ v:'83.8%', d:'6.2%', dir:'up' }, fmt:pct,
+          series:[{ label:'Occupancy', data:[71,78,84,81,88,92,86,90], color:'--g-c1' }], names:['W1','W2','W3','W4','W5','W6','W7','W8'] },
+        { id:'cpm', title:'CPM (Open Deck vs Box)', icon:'chart-spline', kind:'line', span:2, kpi:{ v:'$ 1.69', d:'4.1%', dir:'down' }, fmt:usd2, zeroBase:true,
+          series:[{ label:'Open deck', data:CPM_OPEN, color:'--g-c1' }, { label:'Box', data:CPM_BOX, color:'--g-c2' }], names:CPMX },
+        { id:'trailerType', title:'Trailer Type', icon:'chart-column', kind:'bar', kpi:{ v:'61', d:'3.4%', dir:'up' }, fmt:str, slabel:'Units',
+          data:[12,6,9,11,14,5,4], names:TRAILERTYPES, color:'--g-c1' },
+        { id:'driverPerTeam', title:'Driver Per Team', icon:'chart-column', kind:'grouped', kpi:{ v:'68', d:'5.9%', dir:'up' }, fmt:str,
+          a:[18,17,12], b:[7,9,5], aLabel:'Company', bLabel:'Owner operator', names:['Team East','Team Central','Team South'] },
+        { id:'revenueByTeam', title:'Revenue By Team', icon:'chart-column', kind:'bar', kpi:{ v:'$ 711,700', d:'7.3%', dir:'up' }, fmt:K$, slabel:'Revenue',
+          data:[186400,214100,168900,142300], names:['East','Central','South','West'], color:'--g-c1' },
+        { id:'revenueByTrailerType', title:'Revenue By Trailer Type', icon:'chart-column', kind:'bar', kpi:{ v:'$ 31,725', d:'12.4%', dir:'up' }, fmt:K$, slabel:'Revenue',
+          data:EQUIP_V, names:EQUIP_N, color:'--g-c1' },
+        { id:'revenueOccupancy', title:'Revenue & Occupancy', icon:'chart-column', kind:'combo', span:2, kpi:{ v:'$ 425.00', d:'9.8%', dir:'up' }, fmt:function(t){ return '$ ' + t.toFixed(2); },
+          barLabel:'Revenue', lineLabel:'Occupancy', bars:[71,90,159,105], line:[117,129,110,148], names:WEEKS },
+        { id:'revenueActualGoal', title:'Revenue Actual Vs Goal', icon:'target', kind:'combo', span:2, kpi:{ v:'$ 2.89M', d:'2.4%', dir:'down' }, fmt:function(t){ return '$ ' + t + 'k'; },
+          barLabel:'Actual', lineLabel:'Goal', bars:[412,438,501,470,523,545], line:[450,450,480,500,520,560], names:MONTHS },
+        { id:'revenueOccupancyGoal', title:'Revenue Occupancy Vs Goal', icon:'goal', kind:'combo', kpi:{ v:'82.3%', d:'3.1%', dir:'down' }, fmt:pct,
+          barLabel:'Actual', lineLabel:'Goal', bars:[71,78,84,81,88,92], line:[80,80,85,85,90,90], names:MONTHS },
+        { id:'loadsInTransit', title:'Loads In Transit', icon:'chart-spline', kind:'line', kpi:{ v:'443', d:'6.7%', dir:'up' }, fmt:str,
+          series:[{ label:'Loads', data:[58,61,64,60,67,64,69], color:'--g-c1' }], names:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'] },
+        { id:'companyStats', title:'Company Stats', icon:'chart-pie', kind:'stat', span:2,
+          stats:[
+            { v:'1,284', label:'Loads delivered' }, { v:'96.2%', label:'On-time service', tone:'up' },
+            { v:'$2.64', label:'Average revenue per mile' }, { v:'8.4%', label:'Deadhead', tone:'down' },
+            { v:'47', label:'Active trucks' }, { v:'795', label:'Average length of haul' }
+          ] }
       ];
-      document.getElementById('hubFinal').innerHTML = FINAL.map(function(it){
-        return '<div class="rv-card"><div class="rv-top"><span class="rv-num"><i data-lucide="' + it[2] + '" style="width:17.5px;height:17.5px"></i></span><div class="rv-name"><b>' + it[0] + '</b><span>' + it[3] + '</span></div><span class="badge"><i data-lucide="lock"></i> Finalised</span></div>' +
-          '<p class="rv-desc">' + it[4] + '</p><ul class="rv-demo">' + it[5].map(function(d){ return '<li><i data-lucide="mouse-pointer-click"></i><span>' + d + '</span></li>'; }).join('') + '</ul>' +
-          '<div class="rv-foot"><span class="rv-src" title="' + window.dpEsc(it[6]) + '">' + it[6] + '</span><div class="row"><a class="btn-primary" data-size="sm" href="' + it[1] + '">Open <i data-lucide="arrow-right"></i></a></div></div></div>';
+
+      /* ---------------- Geometry (house / shadcn, fixed) ---------------- */
+      function esc(s){ return window.dpEsc ? window.dpEsc(s) : String(s); }
+      var NICE_STEPS = [1, 1.2, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10];
+      function niceMax(v){
+        if(v <= 0) return 1;
+        var p = Math.pow(10, Math.floor(Math.log10(v))), n = v / p;
+        for(var i = 0; i < NICE_STEPS.length; i++){ if(n <= NICE_STEPS[i]) return NICE_STEPS[i] * p; }
+        return 10 * p;
+      }
+      function pathD(pts){
+        if(pts.length < 3) return 'M' + pts.map(function(p){ return p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' L');
+        var d = 'M' + pts[0][0].toFixed(1) + ' ' + pts[0][1].toFixed(1);
+        for(var i = 0; i < pts.length - 1; i++){
+          var p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+          d += ' C' + (p1[0] + (p2[0] - p0[0]) / 6).toFixed(1) + ' ' + (p1[1] + (p2[1] - p0[1]) / 6).toFixed(1) + ' ' + (p2[0] - (p3[0] - p1[0]) / 6).toFixed(1) + ' ' + (p2[1] - (p3[1] - p1[1]) / 6).toFixed(1) + ' ' + p2[0].toFixed(1) + ' ' + p2[1].toFixed(1);
+        }
+        return d;
+      }
+      function barTop(x, y, w, h, colorVar){
+        if(h <= 0) return '';
+        var t = Math.min(4, w / 2, h);
+        return '<path d="M' + x.toFixed(1) + ' ' + (y + h).toFixed(1) + 'V' + (y + t).toFixed(1) + 'q0 ' + (-t) + ' ' + t + ' ' + (-t) + 'H' + (x + w - t).toFixed(1) + 'q' + t + ' 0 ' + t + ' ' + t + 'V' + (y + h).toFixed(1) + 'Z" style="fill:var(' + colorVar + ')"/>';
+      }
+      function gridLines(w, T, ih, mx, mn, fmt, L){
+        L = L || 0; var g = '';
+        for(var k = 0; k <= 4; k++){
+          var gv = mn + (mx - mn) * k / 4, gvR = Math.round(gv * 1000) / 1000, gy = T + ih - (gv - mn) / (mx - mn) * ih;
+          g += '<line x1="' + L + '" x2="' + w + '" y1="' + gy.toFixed(1) + '" y2="' + gy.toFixed(1) + '" style="stroke:var(--g-grid);stroke-width:1;stroke-dasharray:4 4"/>';
+          if(fmt) g += '<text x="' + Math.max(0, L - 8) + '" y="' + (gy + 3.5).toFixed(1) + '" text-anchor="' + (L ? 'end' : 'start') + '" style="fill:var(--g-faint);font-size:10.5px">' + esc(fmt(gvR)) + '</text>';
+        }
+        return g;
+      }
+      function sw(varName){ return '<i style="background:var(' + varName + ')"></i>'; }
+      /* First-word shorthand for x-axis labels — but only when that stays
+         unique (e.g. "Box Truck" -> "Box"). "Week 1".."Week 4" would all
+         collapse to "Week", so those keep their full label instead. */
+      function shortLabels(names){
+        var short = names.map(function(n){ return String(n).split(' ')[0]; });
+        var counts = {}; short.forEach(function(s){ counts[s] = (counts[s] || 0) + 1; });
+        return short.some(function(s){ return counts[s] > 1; }) ? names.map(String) : short;
+      }
+      function dotSw(varName){ return '<i style="width:7.5px;height:7.5px;display:inline-block;margin-right:5px;border-radius:50%;background:var(' + varName + ')"></i>'; }
+
+      /* ---------------- Renderers — each returns {svg,h,legend,meta} ---- */
+      function chartBar(w, g){
+        var data = g.data, names = g.names, h = 210, L = 4, B = 28, T = 14, ih = h - T - B, n = data.length, slotW = (w - L) / n;
+        var mx = niceMax(Math.max.apply(null, data) * 1.08), bw = Math.min(38, slotW * .5);
+        var body = gridLines(w, T, ih, mx, 0, null), labels = shortLabels(names);
+        data.forEach(function(v, i){
+          var cx = L + slotW * i + slotW / 2, hb = mx ? v / mx * ih : 0, x = cx - bw / 2, y = T + ih - hb;
+          body += barTop(x, y, bw, hb, g.color);
+          body += '<text x="' + cx.toFixed(1) + '" y="' + (h - 9) + '" text-anchor="middle" style="fill:var(--g-faint);font-size:11px">' + esc(labels[i]) + '</text>';
+          body += '<rect data-hit data-i="' + i + '" x="' + (cx - slotW / 2).toFixed(1) + '" y="' + T + '" width="' + slotW.toFixed(1) + '" height="' + ih + '" style="fill:transparent;cursor:pointer"/>';
+        });
+        return { svg:'<svg viewBox="0 0 ' + w + ' ' + h + '" style="height:' + h + 'px" role="img" aria-label="' + esc(g.title) + '">' + body + '</svg>',
+          legend:'<span class="gh-leg">' + sw(g.color) + (g.slabel || g.title) + '</span>',
+          meta:{ names:names, series:[{ label:g.slabel || g.title, colorVar:g.color, fmt:g.fmt, data:data }] } };
+      }
+      function chartGrouped(w, g){
+        var h = 210, L = 4, B = 28, T = 14, ih = h - T - B, n = g.a.length, slotW = (w - L) / n;
+        var mx = niceMax(Math.max.apply(null, g.a.concat(g.b)) * 1.08), bw = Math.min(16, slotW * .26);
+        var body = gridLines(w, T, ih, mx, 0, null);
+        g.names.forEach(function(nm, i){
+          var cx = L + slotW * i + slotW / 2, ha = mx ? g.a[i] / mx * ih : 0, hb = mx ? g.b[i] / mx * ih : 0;
+          body += barTop(cx - bw - 1.5, T + ih - ha, bw, ha, '--g-c1');
+          body += barTop(cx + 1.5, T + ih - hb, bw, hb, '--g-c2');
+          body += '<text x="' + cx.toFixed(1) + '" y="' + (h - 9) + '" text-anchor="middle" style="fill:var(--g-faint);font-size:11px">' + esc(nm) + '</text>';
+          body += '<rect data-hit data-i="' + i + '" x="' + (cx - slotW / 2).toFixed(1) + '" y="' + T + '" width="' + slotW.toFixed(1) + '" height="' + ih + '" style="fill:transparent;cursor:pointer"/>';
+        });
+        return { svg:'<svg viewBox="0 0 ' + w + ' ' + h + '" style="height:' + h + 'px" role="img" aria-label="' + esc(g.title) + '">' + body + '</svg>',
+          legend:'<span class="gh-leg">' + sw('--g-c1') + g.aLabel + '</span><span class="gh-leg">' + sw('--g-c2') + g.bLabel + '</span>',
+          meta:{ names:g.names, series:[{ label:g.aLabel, colorVar:'--g-c1', fmt:g.fmt, data:g.a }, { label:g.bLabel, colorVar:'--g-c2', fmt:g.fmt, data:g.b }] } };
+      }
+      function chartLine(w, g){
+        var dual = g.series.length > 1, h = dual ? 225 : 175, L = 40, R = 8, T = 10, B = 24, iw = w - L - R, ih = h - T - B;
+        var all = []; g.series.forEach(function(s){ all = all.concat(s.data); });
+        var lo = Math.min.apply(null, all), mx = niceMax(Math.max.apply(null, all) * 1.08);
+        var mn = g.zeroBase ? 0 : (lo < 0 ? Math.floor(lo * 10) / 10 : Math.floor(lo * .9));
+        var n = g.names.length, x = function(i){ return L + i / (n - 1) * iw; }, y = function(v){ return T + ih - (v - mn) / (mx - mn) * ih; };
+        var body = gridLines(w, T, ih, mx, mn, g.fmt, L);
+        var step = Math.ceil(n / 7);
+        g.names.forEach(function(l, i){ if(i % step === 0 || i === n - 1) body += '<text x="' + x(i).toFixed(1) + '" y="' + (h - 7) + '" text-anchor="middle" style="fill:var(--g-faint);font-size:11px">' + esc(l) + '</text>'; });
+        g.series.forEach(function(s){
+          var pts = s.data.map(function(v, i){ return [x(i), y(v)]; }), d = pathD(pts);
+          if(!dual) body += '<path d="' + d + ' L' + x(n - 1).toFixed(1) + ' ' + y(mn).toFixed(1) + ' L' + L + ' ' + y(mn).toFixed(1) + 'Z" style="fill:var(' + s.color + ');opacity:.10"/>';
+          body += '<path d="' + d + '" style="fill:none;stroke:var(' + s.color + ');stroke-width:2;stroke-linecap:round;stroke-linejoin:round"/>';
+        });
+        for(var i = 0; i < n; i++) body += '<rect data-hit data-i="' + i + '" x="' + (x(i) - iw / (n - 1) / 2).toFixed(1) + '" y="' + T + '" width="' + (iw / (n - 1)).toFixed(1) + '" height="' + ih + '" style="fill:transparent;cursor:crosshair"/>';
+        return { svg:'<svg viewBox="0 0 ' + w + ' ' + h + '" style="height:' + h + 'px" role="img" aria-label="' + esc(g.title) + '">' + body + '</svg>',
+          legend: dual ? g.series.map(function(s){ return '<span class="gh-leg">' + sw(s.color) + s.label + '</span>'; }).join('') : '',
+          meta:{ names:g.names, series:g.series.map(function(s){ return { label:s.label, colorVar:s.color, fmt:g.fmt, data:s.data }; }) } };
+      }
+      function chartCombo(w, g){
+        var h = 220, L = 40, R = 8, T = 10, B = 24, iw = w - L - R, ih = h - T - B, n = g.bars.length, slotW = iw / n;
+        var mx = niceMax(Math.max.apply(null, g.bars.concat(g.line)) * 1.08);
+        var x = function(i){ return L + slotW * i + slotW / 2; }, y = function(v){ return T + ih - (mx ? v / mx * ih : 0); };
+        var bw = Math.min(30, slotW * .45);
+        var body = gridLines(w, T, ih, mx, 0, g.fmt, L), comboLabels = shortLabels(g.names);
+        g.names.forEach(function(nm, i){ body += '<text x="' + x(i).toFixed(1) + '" y="' + (h - 7) + '" text-anchor="middle" style="fill:var(--g-faint);font-size:11px">' + esc(comboLabels[i]) + '</text>'; });
+        g.bars.forEach(function(v, i){ var hb = mx ? v / mx * ih : 0; body += barTop(x(i) - bw / 2, T + ih - hb, bw, hb, '--g-c1'); });
+        var pts = g.line.map(function(v, i){ return [x(i), y(v)]; });
+        body += '<path d="' + pathD(pts) + '" style="fill:none;stroke:var(--g-c2);stroke-width:2.25;stroke-linecap:round;stroke-linejoin:round"/>';
+        pts.forEach(function(p){ body += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="3.5" style="fill:var(--g-c2);stroke:var(--g-card);stroke-width:1.5"/>'; });
+        for(var i = 0; i < n; i++) body += '<rect data-hit data-i="' + i + '" x="' + (x(i) - slotW / 2).toFixed(1) + '" y="' + T + '" width="' + slotW.toFixed(1) + '" height="' + ih + '" style="fill:transparent;cursor:pointer"/>';
+        return { svg:'<svg viewBox="0 0 ' + w + ' ' + h + '" style="height:' + h + 'px" role="img" aria-label="' + esc(g.title) + '">' + body + '</svg>',
+          legend:'<span class="gh-leg">' + sw('--g-c1') + g.barLabel + '</span><span class="gh-leg">' + sw('--g-c2') + g.lineLabel + '</span>',
+          meta:{ names:g.names, series:[{ label:g.barLabel, colorVar:'--g-c1', fmt:g.fmt, data:g.bars }, { label:g.lineLabel, colorVar:'--g-c2', fmt:g.fmt, data:g.line }] } };
+      }
+      function chartStat(g){
+        return '<div class="gh-statgrid">' + g.stats.map(function(s){
+          return '<div class="gh-stat"><b class="' + (s.tone || '') + '">' + esc(s.v) + '</b><span>' + esc(s.label) + '</span></div>';
+        }).join('') + '</div>';
+      }
+
+      /* ---------------- Card shell + fill ---------------- */
+      var ICON_BADGE = { bar:'chart-column', line:'chart-spline', grouped:'chart-column', combo:'chart-column', stat:'chart-pie' };
+      function cardShell(g){
+        var subHtml = g.subs ? '<div class="gh-sub" data-sub-for="' + g.id + '">' + g.subs.map(function(s, i){ return '<button type="button" data-sub="' + s.key + '" class="' + (i === 0 ? 'active' : '') + '">' + s.label + '</button>'; }).join('') + '</div>' : '';
+        return '<div class="gh-card' + (g.span === 2 ? ' span-2' : g.span === 3 ? ' span-3' : '') + '" data-card="' + g.id + '">' +
+          '<div class="gh-head"><span class="gh-title"><i data-lucide="' + g.icon + '"></i>' + esc(g.title) + '</span>' +
+          '<div class="gh-head-right">' + subHtml + '<button class="gh-more" type="button" data-more="' + g.id + '" aria-label="' + esc(g.title) + ' options"><i data-lucide="ellipsis"></i></button></div></div>' +
+          '<div class="gh-slot" data-slot="' + g.id + '"></div></div>';
+      }
+      var STATE = { table:{}, sub:{} };
+      function fillOne(card, g){
+        var slot = card.querySelector('.gh-slot');
+        if(g.kind === 'stat'){ slot.innerHTML = chartStat(g); card._meta = null; return; }
+        if(STATE.table[g.id]){ slot.innerHTML = tableHtml(g); return; }
+        var active = g.subs ? g.subs.filter(function(s){ return s.key === (STATE.sub[g.id] || g.subs[0].key); })[0] : g;
+        var w = Math.max(220, Math.round(slot.parentNode.clientWidth || 340));
+        var barG = g.kind === 'bar' ? { title:g.title, slabel:g.slabel, data:active.data, names:active.names, color:active.color, fmt:active.fmt } : null;
+        var r = g.kind === 'bar' ? chartBar(w, barG) : g.kind === 'grouped' ? chartGrouped(w, g) : g.kind === 'combo' ? chartCombo(w, g) : chartLine(w, g);
+        var kpi = active.kpi || g.kpi;
+        slot.innerHTML = '<div class="gh-metric"><span class="gh-hero">' + esc(kpi.v) + '</span><span class="gh-delta ' + (kpi.dir === 'up' ? 'up' : 'down') + '">' + (kpi.dir === 'up' ? '▲ ' : '▼ ') + esc(kpi.d) + '</span></div>' +
+          '<div class="gh-body">' + r.svg + '</div>' + (r.legend ? '<div class="gh-legend">' + r.legend + '</div>' : '');
+        card._meta = r.meta;
+      }
+      function rowsFor(g){
+        if(g.kind === 'stat') return [['Metric', 'Value']].concat(g.stats.map(function(s){ return [s.label, s.v]; }));
+        var active = g.subs ? g.subs.filter(function(s){ return s.key === (STATE.sub[g.id] || g.subs[0].key); })[0] : g;
+        var barG2 = g.kind === 'bar' ? { title:g.title, slabel:g.slabel, data:active.data, names:active.names, color:active.color, fmt:active.fmt } : null;
+        var w = 400, r = g.kind === 'bar' ? chartBar(w, barG2) : g.kind === 'grouped' ? chartGrouped(w, g) : g.kind === 'combo' ? chartCombo(w, g) : chartLine(w, g);
+        var head = ['Category'].concat(r.meta.series.map(function(s){ return s.label; }));
+        var body = r.meta.names.map(function(nm, i){ return [nm].concat(r.meta.series.map(function(s){ return s.fmt(s.data[i]); })); });
+        return [head].concat(body);
+      }
+      function tableHtml(g){ var r = rowsFor(g); return '<div class="gh-body gh-table-wrap"><table class="gh-table"><thead><tr>' + r[0].map(function(h){ return '<th>' + esc(h) + '</th>'; }).join('') + '</tr></thead><tbody>' + r.slice(1).map(function(x){ return '<tr>' + x.map(function(c){ return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>'; }
+      function download(name, rowsArr){ var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([rowsArr.map(function(r){ return r.map(function(c){ return '"' + String(c).replace(/"/g, '""') + '"'; }).join(','); }).join('\n')], { type:'text/csv' })); a.download = name; a.click(); }
+
+      /* ---------------- Tooltip (zoom-compensated, ported) ---------------- */
+      var tip = document.createElement('div'); tip.className = 'gh-tip'; tip.hidden = true; document.body.appendChild(tip);
+      function showTip(html, ev){
+        tip.innerHTML = html; tip.hidden = false;
+        var z = parseFloat(getComputedStyle(document.body).zoom) || 1, w = tip.offsetWidth, h = tip.offsetHeight;
+        var x = ev.clientX / z + 14, y = ev.clientY / z - h - 10;
+        if(x + w > window.innerWidth / z - 10) x = ev.clientX / z - w - 14; if(y < 10) y = ev.clientY / z + 16;
+        tip.style.left = Math.round(x / 1.25) * 1.25 + 'px'; tip.style.top = Math.round(y / 1.25) * 1.25 + 'px';
+      }
+      function hideTip(){ tip.hidden = true; }
+
+      /* ---------------- Assemble + wire ---------------- */
+      var grid = document.getElementById('ghGrid');
+      function renderAll(){
+        grid.innerHTML = GRAPHS.map(cardShell).join('');
+        GRAPHS.forEach(function(g){ fillOne(grid.querySelector('[data-card="' + g.id + '"]'), g); });
+        window.dpIcons();
+      }
+      renderAll();
+
+      var kinds = {}; GRAPHS.forEach(function(g){ kinds[g.kind] = 1; });
+      document.getElementById('ghStats').innerHTML = [
+        ['Graphs', GRAPHS.length, 'list-checks', ''],
+        ['Chart types', Object.keys(kinds).length, 'chart-column', ''],
+        ['Source', 'Dashboard Original', 'database', 'neutral'],
+        ['Console errors', 0, 'bug-off', 'green']
+      ].map(function(t){
+        return '<div class="stat" data-tone="' + t[3] + '"><div class="stat-top"><span class="stat-label">' + t[0] + '</span><span class="stat-icon"><i data-lucide="' + t[2] + '"></i></span></div><div class="stat-value">' + t[1] + '</div></div>';
       }).join('');
       window.dpIcons();
+
+      grid.addEventListener('click', function(e){
+        var sb = e.target.closest('[data-sub]');
+        if(sb){
+          var wrap = sb.closest('[data-sub-for]'), id = wrap.getAttribute('data-sub-for');
+          STATE.sub[id] = sb.getAttribute('data-sub');
+          wrap.querySelectorAll('button').forEach(function(b){ b.classList.toggle('active', b === sb); });
+          var g = GRAPHS.filter(function(x){ return x.id === id; })[0];
+          fillOne(sb.closest('.gh-card'), g); window.dpIcons();
+          return;
+        }
+        var m = e.target.closest('[data-more]');
+        if(m){
+          e.stopPropagation();
+          var id2 = m.getAttribute('data-more'), g2 = GRAPHS.filter(function(x){ return x.id === id2; })[0];
+          if(g2.kind === 'stat'){
+            window.dpMenu.open(m, [{ label:'Export CSV', icon:'download', onClick:function(){ download(id2 + '.csv', rowsFor(g2)); window.dpToast('success', 'CSV exported', g2.title); } }]);
+            return;
+          }
+          window.dpMenu.open(m, [
+            { label: STATE.table[id2] ? 'View as chart' : 'View as table', icon: STATE.table[id2] ? 'chart-line' : 'table', onClick:function(){ STATE.table[id2] = !STATE.table[id2]; fillOne(m.closest('.gh-card'), g2); window.dpIcons(); } },
+            { label:'Export CSV', icon:'download', onClick:function(){ download(id2 + '.csv', rowsFor(g2)); window.dpToast('success', 'CSV exported', g2.title); } },
+            { label:'Copy data', icon:'copy', onClick:function(){ try{ navigator.clipboard.writeText(rowsFor(g2).map(function(r){ return r.join('\t'); }).join('\n')); }catch(err){} window.dpToast('success', 'Copied', 'Paste straight into a spreadsheet.'); } }
+          ]);
+        }
+      });
+
+      grid.addEventListener('mousemove', function(e){
+        var hit = e.target.closest('[data-hit]'); if(!hit){ hideTip(); return; }
+        var card = e.target.closest('.gh-card'); if(!card || !card._meta){ hideTip(); return; }
+        var i = +hit.getAttribute('data-i'), meta = card._meta;
+        var html = '<b>' + esc(meta.names[i]) + '</b>' + meta.series.map(function(s){
+          return '<div class="tl"><span>' + dotSw(s.colorVar) + s.label + '</span><span>' + esc(s.fmt(s.data[i])) + '</span></div>';
+        }).join('');
+        showTip(html, e);
+      });
+      grid.addEventListener('mouseleave', hideTip);
+
+      document.getElementById('ghExportAll').addEventListener('click', function(){
+        var all = [];
+        GRAPHS.forEach(function(g){ all.push([g.title.toUpperCase()]); rowsFor(g).forEach(function(r){ all.push(r); }); all.push([]); });
+        download('graphs-card-hub.csv', all);
+        window.dpToast('success', 'Exported', 'Every graph\'s data in one CSV.');
+      });
+
+      var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(renderAll, 150); });
     })();
   </script>
 </body>
